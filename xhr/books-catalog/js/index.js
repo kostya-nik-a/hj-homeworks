@@ -10,17 +10,8 @@ function onLoad() {
     let bookList = document.getElementById('content');
     bookList.innerHTML = '';
 
-    let i = 1;
     for (let book of dataBooks) {
-        bookList.innerHTML += `<li><img src="${book.cover.small}"></li>`;
-
-        let bookItem = bookList.querySelector(`#content :nth-child(${i})`);
-
-        bookItem.dataset.title = book.title;
-        bookItem.dataset.author = book.author.name;
-        bookItem.dataset.info = book.info;
-        bookItem.dataset.price = book.price;
-        i++;
+        bookList.innerHTML += `<li data-title="${book.title}" data-author="${book.author.name}" data-info="${book.info}" data-price="${book.price}"><img src="${book.cover.small}"></li>`;
     }
 }
 
