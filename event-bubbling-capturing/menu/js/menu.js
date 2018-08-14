@@ -1,17 +1,17 @@
-'use strict';
-
 function toggleMenu(event) {
-  if (this.classList.contains('show')) {
-    this.classList.remove('show');
-    this.classList.add('hide');
-  } else {
-    this.classList.add('show');
-    this.classList.remove('hide');
+    if (this.classList.contains('show')) {
+        this.classList.remove('show');
+        this.classList.add('hide');
+    } else {
+        this.classList.add('show');
+        this.classList.remove('hide');
   }
 }
 
 function openLink(event) {
+  event.stopPropagation();
   console.log(this.textContent);
+  event.preventDefault();
 }
 
 function init(node) {
