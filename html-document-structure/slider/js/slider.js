@@ -9,8 +9,8 @@ const btnNext = document.querySelector('[data-action = next]');
 const btnFirst = document.querySelector('[data-action = first]');
 const btnLast = document.querySelector('[data-action = last]');
 
-function moveButton(selectedButton) {
-    switch(selectedButton) {
+function moveButton() {
+    switch(event.target.dataset.action) {
         case 'next':
             return slideCurrent.nextElementSibling;
         case 'prev':
@@ -22,8 +22,8 @@ function moveButton(selectedButton) {
     }
 }
 
-function moveSlide(selectedButton) {
-    const activatedSlide = moveButton(selectedButton);
+function moveSlide() {
+    const activatedSlide = moveButton(event.target.dataset.action);
     slideCurrent.classList.remove('slide-current');
     activatedSlide.classList.add('slide-current');
 

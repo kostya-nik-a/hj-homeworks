@@ -3,17 +3,15 @@
 const done = document.querySelector('.done'),
     undone = document.querySelector('.undone');
 
-function task(selectedItem) {
-    const currentTask = selectedItem.parentElement;
-    if (currentTask.parentElement.classList.contains('done')) {
-        undone.appendChild(currentTask);
+function task(event) {
+    const currentTask = event.target.parentElement;
+    if (event.target.checked) {
+        done.appendChild(currentTask);
     } else {
-      done.appendChild(currentTask);
+        undone.appendChild(currentTask);
     }
 }
 
 const tasks = document.querySelectorAll('input');
 
-Array.from(tasks).forEach(item => item.addEventListener('click', function() {
-    task(item);})
-);
+Array.from(tasks).forEach(item => item.addEventListener('click', task));
