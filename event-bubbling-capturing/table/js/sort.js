@@ -3,11 +3,10 @@
 function handleTableClick(event) {
     if (event.target.tagName == 'TH') {
         if (event.target.dataset.dir) {
-            event.target.dataset.dir = '1';
+            event.target.dataset.dir = -event.target.dataset.dir;
         } else {
-            event.target.dataset.dir = '-1';
+            event.target.dataset.dir = 1;
         }
-
 
         const prop = event.target.dataset.propName;
         document.querySelector('table').dataset.sortBy = prop;

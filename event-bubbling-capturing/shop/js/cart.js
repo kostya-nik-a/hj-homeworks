@@ -1,7 +1,7 @@
 'use strict';
 
 function clickOnAddToCart(event) {
-    if (event.target.className === 'add-to-cart') {
+    if (event.target.classList.contains('add-to-cart')) {
         event.preventDefault();
         addToCart({
             title: event.target.dataset.title,
