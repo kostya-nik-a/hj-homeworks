@@ -6,10 +6,7 @@ if (navigator.mediaDevices === undefined) {
 
 if (navigator.mediaDevices.getUserMedia === undefined) {
   navigator.mediaDevices.getUserMedia = function (constraints) {
-    var getUserMedia = navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia;
+    var getUserMedia = navigator.getUserMedia;
 
     if (!getUserMedia) {
       return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
@@ -37,10 +34,42 @@ function createThumbnail(video) {
 }
 
 function record(app) {
-  return new Promise((done, fail) => {
-    app.mode = 'preparing';
-    setTimeout(() => {
-      fail('Не удалось записать видео');
-    }, app.limit);
-  });
+    return new Promise((done, fail) => {
+
+        app.mode = 'preparing';
+
+    navigator.mediaDevices.getUserMedia(app.config)
+        .then(function(stream) {
+
+            console.log('yay!', stream);
+            app.preview.srcObject = stream;
+            app.mode = 'recording';
+            app.preview.play();
+
+            let recorder = new MediaRecorder(stream);
+            let chunks = [];
+
+            recorder.addEventListener('dataavailable', (e) => chunks.push(e.data));
+
+            recorder.addEventListener('stop', (e) => {
+                app.preview.srcObject = null;
+                const recorded = new Blob(chunks, { 'type' : recorder.mimeType });
+                chunks = null;
+                stream.getVideoTracks().map(track => track.stop());
+                recorder = stream = null;
+
+                createThumbnail(recorded)
+                    .then((thumb) => done({video: recorded, frame: thumb})).catch(fail);
+        });
+
+        setTimeout(() => {
+                recorder.start(1000);
+            setTimeout(() => {
+                recorder.stop();
+                }, app.limit);
+        }, 1000);
+
+        })
+        .catch(fail);
+});
 }
