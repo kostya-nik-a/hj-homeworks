@@ -22,7 +22,7 @@ function createSeatMap(event) {
     .then(res => res.json())
     .then(res => {
         rowNum = 0;
-        totalPax.textContent = res.passengers;
+        totalPax.textContent = 0;
         totalHalf.textContent = 0;
         totalAdult.textContent = 0;
         document.querySelector("#seatMapTitle").textContent = `${res.title} (${res.passengers} пассажиров)`;
@@ -144,30 +144,43 @@ function clickSeat(event) {
     if (event.currentTarget.classList.contains("adult")) {
         event.currentTarget.classList.remove("adult");
         totalAdult.textContent--;
+        totalPax.textContent--;
     } else if (event.currentTarget.classList.contains("half")) {
         event.currentTarget.classList.remove("half");
         totalHalf.textContent--;
+        totalPax.textContent--;
     } else {
         event.currentTarget.classList.add(age);
-        age === "half" ? totalHalf.textContent++ : totalAdult.textContent++;
+        if (age === "half") {
+            totalHalf.textContent++;
+            totalPax.textContent++;
+        } else {
+            totalAdult.textContent++;
+            totalPax.textContent++;
+        }
     }
 }
 
 function setFull() {
+    let res = 0;
     event.preventDefault();
     Array.from(document.querySelectorAll(".seat")).forEach(a => {
         a.classList.add("adult");
-    a.classList.remove("half");
-});
-    totalAdult.textContent = totalPax.textContent;
+        a.classList.remove("half");
+        res = ++res;
+    });
+    totalPax.textContent = res;
+    totalAdult.textContent = res;
 }
 
 function setEmpty() {
     event.preventDefault();
     Array.from(document.querySelectorAll(".seat")).forEach(a => {
         a.classList.remove("adult");
-    a.classList.remove("half");
-});
+        a.classList.remove("half");
+    });
+    totalPax.textContent = 0;
+    totalHalf.textContent = 0;
     totalAdult.textContent = 0;
 }
 
