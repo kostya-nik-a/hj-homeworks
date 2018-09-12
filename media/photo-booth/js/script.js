@@ -20,7 +20,7 @@ hide = (elem) => {
 let video;
 
 const canvas = document.createElement('canvas'),
-    ctx = document.createElement('canvas').getContext('2d'),
+    ctx = canvas.getContext('2d'),
     audio = new Audio('https://raw.githubusercontent.com/netology-code/hj-homeworks/master/media/photo-booth/audio/click.mp3');
 
 navigator.mediaDevices
